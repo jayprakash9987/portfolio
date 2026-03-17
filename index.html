@@ -1046,7 +1046,9 @@
           </div>
         </div>
 
-        <form id="contact-form" class="contact-form">
+        <form id="contact-form" class="contact-form" action="https://formsubmit.co/jayprakash95462@gmail.com" method="POST">
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
           <label>
             Name
             <input name="name" required placeholder="Your Name" />
@@ -1119,10 +1121,20 @@
         event.preventDefault();
         status.textContent = '';
 
-        const senderName = form.name.value.trim();
-        const senderEmail = form.email.value.trim();
-        const senderSubject = (form.subject.value || 'New message from portfolio').trim();
-        const senderMessage = form.message.value.trim();
+        const nameField = form.querySelector('input[name="name"]');
+        const emailField = form.querySelector('input[name="email"]');
+        const subjectField = form.querySelector('input[name="subject"]');
+        const messageField = form.querySelector('textarea[name="message"]');
+
+        const senderName = (nameField?.value || '').trim();
+        const senderEmail = (emailField?.value || '').trim();
+        const senderSubject = (subjectField?.value || 'New message from portfolio').trim();
+        const senderMessage = (messageField?.value || '').trim();
+
+        if (!senderName || !senderEmail || !senderMessage) {
+          status.textContent = 'Please fill in name, email, and message.';
+          return;
+        }
 
         const payload = new FormData();
         payload.append('name', senderName);
