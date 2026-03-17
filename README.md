@@ -1,6 +1,6 @@
 # Portfolio (No SMTP / No Nodemailer)
 
-This project serves `portfolio.html` with a small Express static server.
+This project serves `index.html` with a small Express static server.
 
 The contact form now sends directly through FormSubmit, so you do **not** need SMTP, Nodemailer, or `.env` email credentials.
 
@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-Open: `http://localhost:3000/portfolio.html`
+Open: `http://localhost:3000/`
 
 ## Contact form behavior
 
