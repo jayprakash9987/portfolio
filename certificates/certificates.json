@@ -1,0 +1,72 @@
+[ 
+	{
+		"title": "PHP Laravel Certificate",
+		"file": "php laravel certificate.pdf",
+		"type": "PHP / Laravel",
+		"platform": "Udemy"
+	},
+	{
+		"title": "Summer Training Certificate",
+		"file": "12322839 summer training certificate.pdf",
+		"type": "Training",
+		"platform": "Lovely Professional University"
+	},
+	{
+		"title": "Cloud Computing Certificate",
+		"file": "Cloud Computing.pdf",
+		"type": "Cloud",
+		"platform": "NPTEL"
+	},
+	{
+		"title": "C++ Certificate",
+		"file": "cpp certificate.pdf",
+		"type": "C++",
+		"platform": "Lovely Professional University"
+	},
+	{
+		"title": "DSA Certificate",
+		"file": "dsa certificate.pdf",
+		"type": "DSA",
+		"platform": "Lovely Professional University"
+	},
+	{
+		"title": "Hackathon Certificate",
+		"file": "hackathon certificate.pdf",
+		"type": "Hackathon"
+	},
+	{
+		"title": "Infosys Complition Certificate",
+		"file": "infosys complition certificate.pdf",
+		"type": "Infosys"
+	},
+	{
+		"title": "ChatGPT Made Easy: AI Essentials for Beginners",
+		"file": "summer training certificate 2.pdf",
+		"type": "Training",
+		"platform": "Udemy"
+	},
+	{
+		"title": "Master Generative AI & Generative AI Tools (ChatGPT and More)",
+		"file": "summer training certificate 3.pdf",
+		"type": "Training",
+		"platform": "Udemy"
+	},
+	{
+		"title": "Build Generative AI Apps and Solutions with No-Code Tools",
+		"file": "summer training certificate 4.pdf",
+		"type": "Training",
+		"platform": "Udemy"
+	},
+	{
+		"title": "Introduction of Basics Finance Certificate",
+		"file": "introduction of basics finance certificate.pdf",
+		"type": "Finance",
+		"platform": "Simplilearn SkillUp"
+	},
+	{
+		"title": "Java Certificate",
+		"file": "java certificate.pdf",
+		"type": "Java",
+		"platform": "Lovely Professional University"
+	}
+]

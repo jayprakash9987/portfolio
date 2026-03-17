@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificate Center | Jay Prakash</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --card: #111a2d;
+      --line: #2e3d66;
+      --text: #eef2ff;
+      --muted: #b9c8f5;
+      --primary: #6b8cff;
+      --primary-2: #b078ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, "Segoe UI", Arial, sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(circle at 15% 30%, rgba(84, 130, 255, 0.2), transparent 35%), radial-gradient(circle at 80% 72%, rgba(199, 89, 255, 0.14), transparent 35%), linear-gradient(180deg, #070b14 0%, #0b1323 65%, #0e1626 100%);
+      animation: pulseBg 9s ease-in-out infinite alternate;
+    }
+    @keyframes pulseBg { 0% { transform: scale(1); opacity: 0.86; } 100% { transform: scale(1.04); opacity: 1; } }
+    .wrap { position: relative; z-index: 2; width: min(1080px, 92%); margin: 0 auto; padding: 2rem 0 3rem; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;}
+    .title { font-size: clamp(1.6rem, 3.5vw, 2.3rem); }
+    .title i { color: #8eb1ff; margin-right: 0.55rem; }
+    .btn { border: 1px solid #4660a8; border-radius: 999px; padding: 0.65rem 1rem; text-decoration: none; color: #d8e4ff; display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease; background: transparent;}
+    .btn:hover { transform: translateY(-2px); border-color: #87a6ff; color: white; background: rgba(84, 118, 221, 0.12); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .card {
+      background: rgba(16, 25, 42, 0.92);
+      border: 1px solid #334978;
+      border-radius: 14px;
+      display: grid;
+      grid-template-rows: 170px auto;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    .card:hover { transform: translateY(-5px); border-color: #7593e6; box-shadow: 0 20px 30px -22px #030a17; }
+    .cert-thumb {
+      border-bottom: 1px solid #2b3c68;
+      background: linear-gradient(180deg, rgba(37, 56, 101, 0.35), rgba(10, 17, 30, 0.85));
+      overflow: hidden;
+      position: relative;
+    }
+    .cert-thumb iframe {
+      width: 100%;
+      height: 360px;
+      border: 0;
+      pointer-events: none;
+      transform: translateY(-60px) scale(1.04);
+      transform-origin: top center;
+      opacity: 0.92;
+    }
+    .pdf-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.45rem;
+      color: #d4e1ff;
+      font-size: 0.88rem;
+      background: linear-gradient(180deg, rgba(34, 51, 92, 0.75), rgba(10, 17, 30, 0.92));
+    }
+    .card-content { padding: 0.95rem; display: grid; gap: 0.45rem; }
+    .card h3 { font-size: 1rem; line-height: 1.35; }
+    .meta { color: var(--muted); font-size: 0.84rem; }
+    .meta strong { color: #dce7ff; }
+    .card a { text-decoration: none; color: #cfe0ff; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; margin-top: 0.2rem; }
+    .card a:hover { color: #fff; }
+    .empty { border: 1px dashed #415b97; border-radius: 14px; padding: 1.1rem; color: var(--muted); }
+
+    /* Scroll Progress */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--primary-2)); z-index: 100; width: 0%; border-radius: 0 2px 2px 0; transition: width 0.1s;
+    }
+
+    /* Back to Top */
+    .back-to-top {
+      position: fixed; bottom: 2rem; right: 2rem; width: 45px; height: 45px; border-radius: 50%;
+      background: linear-gradient(135deg, #4366db 0%, #885ef6 100%); color: white; border: none; font-size: 1.2rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(82, 112, 228, 0.4);
+      opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.3s ease; z-index: 50;
+    }
+    .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 16px rgba(114, 108, 255, 0.6); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scroll-progress"></div>
+  <div class="bg-layer"></div>
+  <main class="wrap">
+    <div class="top">
+      <h1 class="title"><i class="fa-solid fa-certificate"></i>Certificate Center</h1>
+      <a href="portfolio.html#certificate-center" class="btn"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+    </div>
+
+    <div id="cert-grid" class="grid"></div>
+    <div id="cert-empty" class="empty" style="display:none; margin-top: 1rem;">
+      No certificates listed yet. Add certificate files to the certificates folder and update certificates/certificates.json.
+    </div>
+  </main>
+
+  <script>
+    const certGrid = document.getElementById('cert-grid');
+    const certEmpty = document.getElementById('cert-empty');
+
+    async function loadCertificates() {
+      try {
+        const res = await fetch('certificates/certificates.json', { cache: 'no-store' });
+        const list = await res.json();
+
+        if (!Array.isArray(list) || list.length === 0) {
+          certEmpty.style.display = 'block';
+          return;
+        }
+
+        list.forEach((item) => {
+          const title = item.title || 'Certificate';
+          const file = item.file || '';
+          const type = item.type || 'Certificate';
+          const certUrl = `certificates/${encodeURIComponent(file)}`;
+          const platform = item.platform || inferPlatformName(item);
+          const card = document.createElement('article');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="cert-thumb">
+              <iframe src="${certUrl}#view=fitH" title="${title} preview" loading="lazy"></iframe>
+              <div class="pdf-fallback">
+                <i class="fa-regular fa-file-pdf" style="font-size:1.4rem;"></i>
+                <span>Certificate Preview</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <h3>${title}</h3>
+              <p class="meta"><strong>Type:</strong> ${type}</p>
+              <p class="meta"><strong>Platform:</strong> ${platform}</p>
+              <a href="${certUrl}" target="_blank" rel="noopener noreferrer">
+                <i class="fa-regular fa-file-pdf"></i> Open Certificate
+              </a>
+            </div>
+          `;
+
+          const iframe = card.querySelector('iframe');
+          const fallback = card.querySelector('.pdf-fallback');
+          if (iframe && fallback) {
+            iframe.addEventListener('load', () => {
+              fallback.style.display = 'none';
+            });
+          }
+
+          certGrid.appendChild(card);
+        });
+      } catch (error) {
+        certEmpty.style.display = 'block';
+      }
+    }
+
+    function inferPlatformName(item) {
+      const text = `${item.title || ''} ${item.type || ''}`.toLowerCase();
+
+      if (text.includes('infosys')) return 'Infosys Springboard';
+      if (text.includes('hackathon')) return 'Hackathon Event Organizer';
+      if (text.includes('summer training')) return 'Summer Training Program';
+      if (text.includes('cloud')) return 'Cloud Certification Provider';
+      if (text.includes('finance')) return 'Finance Learning Platform';
+      return 'Platform Not Specified';
+    }
+
+    loadCertificates();
+
+    // Enhancements
+    // 1. Scroll Progress Bar
+    const scrollProgress = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrollPx = document.documentElement.scrollTop;
+      const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = `${(scrollPx / winHeightPx) * 100}%`;
+      if (scrollProgress) scrollProgress.style.width = scrolled;
+    });
+
+    // 2. Scroll Reveal Observer
+    const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -40px 0px" };
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, revealOptions);
+
+    // Apply reveal to grid after cards load
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach(node => {
+            if (node.nodeType === 1 && node.classList.contains('card')) {
+              node.classList.add('reveal');
+              revealObserver.observe(node);
+            }
+          });
+        }
+      });
+    });
+    observer.observe(certGrid, { childList: true });
+
+    // 3. Back to Top Button
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    if (backToTop) {
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+  </script>
+
+  <!-- Back to top -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+</body>
+</html>
